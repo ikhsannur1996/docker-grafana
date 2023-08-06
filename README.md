@@ -33,6 +33,27 @@ Explanation of the command options:
 - `-p 3000:3000`: Maps port 3000 of the container to port 3000 on the host. Grafana web interface is accessible through `http://localhost:3000`.
 - `--name grafana`: Assigns the name "grafana" to the container.
 
+To add automatic restart functionality to the Grafana container, you can use the `--restart` option when running the container. This option allows you to define when and under what conditions Docker should automatically restart the container if it exits unexpectedly.
+
+Here are the modified steps to include automatic restart functionality:
+
+### Optional: Run Grafana Container with Automatic Restart
+
+Use the following command to run the Grafana container with automatic restart:
+
+```bash
+docker run -d -p 3000:3000 --name grafana --restart unless-stopped -v grafana-storage:/var/lib/grafana grafana/grafana
+```
+
+Explanation of the additional command option:
+- `--restart unless-stopped`: This option tells Docker to restart the container unless it is explicitly stopped by the user. It ensures that if your system reboots or the container crashes, Docker will automatically restart the Grafana container.
+
+With this modification, your Grafana container will automatically restart whenever the Docker daemon is running, ensuring the service remains available even after system reboots or container failures.
+
+Remember that Grafana will still retain its data and configuration in the `grafana-storage` volume as per the previous steps.
+
+Now you have a resilient Grafana setup with automatic restart functionality in case of unexpected failures.
+
 ### 3. Access Grafana
 
 Now that Grafana is running, open your web browser and navigate to `http://localhost:3000`. You should see the Grafana login page.
